@@ -484,7 +484,7 @@ class KoreaPopulationSimulator:
         
         axes[2, 0].stackplot(history_df['year'], 
                            [children, working_age, elderly],
-                           labels=['minor(0-14)', 'mid(15-64)', 'elderly(65+)'],
+                           labels=['young(0-14)', 'working age(15-64)', 'elderly(65+)'],
                            colors=['#3CB371', '#6495ED', '#DB7093'],
                            alpha=0.7)
         axes[2, 0].set_title('change of population structure')
@@ -511,7 +511,7 @@ class KoreaPopulationSimulator:
                            alpha=0.7)
         axes[2, 1].set_title('change of population structure')
         axes[2, 1].set_xlabel('year')
-        axes[2, 1].set_ylabel('population proportion（%）')
+        axes[2, 1].set_ylabel('population proportion')
         axes[2, 1].set_ylim(0, 100)
         
         for i, year in enumerate(milestone_actual_years):
@@ -519,7 +519,7 @@ class KoreaPopulationSimulator:
                 idx = history_df[history_df['year'] == year].index[0]
                 elderly_val = elderly_pct.iloc[idx]
                 axes[2, 1].axvline(x=year, color=milestone_colors[i], linestyle='--', alpha=0.7)
-                axes[2, 1].text(year+0.5, 80, f"{year}: 老年{elderly_val:.1f}%", color=milestone_colors[i])
+                axes[2, 1].text(year+0.5, 80, f"{year}: elderly{elderly_val:.1f}%", color=milestone_colors[i])
         
         # 避免图例重复
         # axes[2, 1].legend(loc='upper right')
@@ -542,21 +542,21 @@ class KoreaPopulationSimulator:
         # 基准年份(2022)数据
         base_data = history_df.iloc[0]
         results.append({
-            '年份': self.year_offset,
-            '总人口(百万)': base_data['total_population'] / 1000000,
-            '出生人数(千)': base_data['births'] / 1000,
-            '死亡人数(千)': base_data['deaths'] / 1000,
-            '人口出生率(‰)': base_data['births'] / base_data['total_population'] * 1000,
-            '人口死亡率(‰)': base_data['deaths'] / base_data['total_population'] * 1000,
-            '人口自然增长率(‰)': (base_data['births'] - base_data['deaths']) / base_data['total_population'] * 1000,
-            '中位年龄': base_data['median_age'],
-            '老年抚养比': base_data['old_age_dependency'],
-            '少儿抚养比': base_data['youth_dependency'],
-            '总抚养比': base_data['dependency_ratio'],
-            '工作年龄人口比例(%)': base_data['working_age_population'] / base_data['total_population'] * 100,
-            '老年人口比例(%)': base_data['elderly_population'] / base_data['total_population'] * 100,
-            '儿童人口比例(%)': base_data['children_population'] / base_data['total_population'] * 100,
-            '净迁移人数': base_data['net_migration']
+            'year': self.year_offset,
+            'pop (million)': base_data['total_population'] / 1000000,
+            'births (k)': base_data['births'] / 1000,
+            'deaths (k)': base_data['deaths'] / 1000,
+            'birth rate (‰)': base_data['births'] / base_data['total_population'] * 1000,
+            'death rate (‰)': base_data['deaths'] / base_data['total_population'] * 1000,
+            'growth rate(‰)': (base_data['births'] - base_data['deaths']) / base_data['total_population'] * 1000,
+            'median age': base_data['median_age'],
+            'elder dependency': base_data['old_age_dependency'],
+            'young dependency': base_data['youth_dependency'],
+            'dependency ratio': base_data['dependency_ratio'],
+            'working age ratio(%)': base_data['working_age_population'] / base_data['total_population'] * 100,
+            'elderly ratio (%)': base_data['elderly_population'] / base_data['total_population'] * 100,
+            'young ratio (%)': base_data['children_population'] / base_data['total_population'] * 100,
+            'net migration': base_data['net_migration']
         })
         
         # 里程碑年份数据
@@ -564,21 +564,21 @@ class KoreaPopulationSimulator:
             if year in history_df['year'].values:
                 year_data = history_df[history_df['year'] == year].iloc[0]
                 results.append({
-                    '年份': year,
-                    '总人口(百万)': year_data['total_population'] / 1000000,
-                    '出生人数(千)': year_data['births'] / 1000,
-                    '死亡人数(千)': year_data['deaths'] / 1000,
-                    '人口出生率(‰)': year_data['births'] / year_data['total_population'] * 1000,
-                    '人口死亡率(‰)': year_data['deaths'] / year_data['total_population'] * 1000,
-                    '人口自然增长率(‰)': (year_data['births'] - year_data['deaths']) / year_data['total_population'] * 1000,
-                    '中位年龄': year_data['median_age'],
-                    '老年抚养比': year_data['old_age_dependency'],
-                    '少儿抚养比': year_data['youth_dependency'],
-                    '总抚养比': year_data['dependency_ratio'],
-                    '工作年龄人口比例(%)': year_data['working_age_population'] / year_data['total_population'] * 100,
-                    '老年人口比例(%)': year_data['elderly_population'] / year_data['total_population'] * 100,
-                    '儿童人口比例(%)': year_data['children_population'] / year_data['total_population'] * 100,
-                    '净迁移人数': year_data['net_migration']
+                    'year': self.year_offset,
+                    'pop (million)': base_data['total_population'] / 1000000,
+                    'births (k)': base_data['births'] / 1000,
+                    'deaths (k)': base_data['deaths'] / 1000,
+                    'birth rate (‰)': base_data['births'] / base_data['total_population'] * 1000,
+                    'death rate (‰)': base_data['deaths'] / base_data['total_population'] * 1000,
+                    'growth rate(‰)': (base_data['births'] - base_data['deaths']) / base_data['total_population'] * 1000,
+                    'median age': base_data['median_age'],
+                    'elder dependency': base_data['old_age_dependency'],
+                    'young dependency': base_data['youth_dependency'],
+                    'dependency ratio': base_data['dependency_ratio'],
+                    'working age ratio(%)': base_data['working_age_population'] / base_data['total_population'] * 100,
+                    'elderly ratio (%)': base_data['elderly_population'] / base_data['total_population'] * 100,
+                    'young ratio (%)': base_data['children_population'] / base_data['total_population'] * 100,
+                    'net migration': base_data['net_migration']
                 })
         
         return pd.DataFrame(results)
@@ -784,7 +784,7 @@ class KoreaPopulationSimulator:
             
         axes[0, 1].set_title('comparison of elderly proportion')
         axes[0, 1].set_xlabel('year')
-        axes[0, 1].set_ylabel('elderly proportion（%）')
+        axes[0, 1].set_ylabel('elderly proportion')
         axes[0, 1].legend()
         axes[0, 1].grid(True)
         
@@ -816,73 +816,6 @@ class KoreaPopulationSimulator:
         
         plt.tight_layout()
         return fig, axes, scenario_results
-    
-    def generate_report(self, scenario_name="默认情景"):
-        """生成人口预测报告"""
-        history_df = self.get_history()
-        
-        # 计算关键年份的数据
-        start_year = history_df['year'].min()
-        end_year = history_df['year'].max()
-        start_data = history_df.iloc[0]
-        end_data = history_df.iloc[-1]
-        
-        # 计算人口变化率
-        pop_change = (end_data['total_population'] - start_data['total_population']) / start_data['total_population'] * 100
-        
-        # 计算关键比例的变化
-        old_ratio_start = start_data['elderly_population'] / start_data['total_population'] * 100
-        old_ratio_end = end_data['elderly_population'] / end_data['total_population'] * 100
-        
-        work_ratio_start = start_data['working_age_population'] / start_data['total_population'] * 100
-        work_ratio_end = end_data['working_age_population'] / end_data['total_population'] * 100
-        
-        # 计算预期生育率
-        tfr = np.sum(self.fertility_rates)
-        
-        # 生成报告文本
-        report = f"""
-        # 韩国人口预测报告: {scenario_name}
-        
-        ## 模拟概述
-        - 模拟期间: {start_year}年 - {end_year}年 (共{end_year-start_year}年)
-        - 总和生育率设定: {tfr:.2f}
-        
-        ## 关键发现
-        
-        ### 人口规模
-        - {start_year}年人口: {start_data['total_population']/1000000:.2f}百万
-        - {end_year}年人口: {end_data['total_population']/1000000:.2f}百万
-        - 人口变化: {pop_change:.1f}% ({pop_change>0 and '增长' or '减少'})
-        
-        ### 人口结构
-        - 人口中位年龄: {start_data['median_age']:.1f}岁 -> {end_data['median_age']:.1f}岁
-        - 老年人口(65岁以上)比例: {old_ratio_start:.1f}% -> {old_ratio_end:.1f}%
-        - 工作年龄人口(15-64岁)比例: {work_ratio_start:.1f}% -> {work_ratio_end:.1f}%
-        - 总抚养比: {start_data['dependency_ratio']:.2f} -> {end_data['dependency_ratio']:.2f}
-        
-        ### 人口动态
-        - 模拟期末出生率: {end_data['births']/end_data['total_population']*1000:.2f}‰
-        - 模拟期末死亡率: {end_data['deaths']/end_data['total_population']*1000:.2f}‰
-        - 模拟期末自然增长率: {(end_data['births']-end_data['deaths'])/end_data['total_population']*1000:.2f}‰
-        
-        ## 社会影响分析
-        
-        ### 劳动力市场
-        - 工作年龄人口减少对经济的影响: {'中等' if pop_change > -20 else '严重'}
-        - 预计劳动力短缺程度: {'中等' if work_ratio_end > 50 else '严重'}
-        
-        ### 养老系统
-        - 预计养老压力: {'中等' if end_data['old_age_dependency'] < 0.5 else '严重'}
-        - 老年人口比例超过总人口30%的年份: {self.year_when_elderly_exceeds(30)}
-        
-        ### 综合评估
-        - 人口规模走势: {'稳定' if abs(pop_change) < 10 else '下降' if pop_change < 0 else '增长'}
-        - 人口结构走势: {'平衡' if end_data['old_age_dependency'] < 0.4 else '老龄化' if end_data['old_age_dependency'] < 0.6 else '超老龄化'}
-        - 人口红利状况: {'持续' if work_ratio_end > 65 else '消失'}
-        """
-        
-        return report
     
     def year_when_elderly_exceeds(self, threshold_percent):
         """
@@ -944,7 +877,7 @@ class KoreaPopulationSimulator:
                    marker='o',
                    markersize=5)
         
-        ax.set_title('changes in korean age distribution韩国人口年龄分布变化')
+        ax.set_title('changes in korean age distribution')
         ax.set_xlabel('age')
         ax.set_ylabel('population proportion (%)')
         ax.grid(True)
@@ -953,8 +886,8 @@ class KoreaPopulationSimulator:
         # 添加垂直线标记重要年龄段
         ax.axvline(x=15, color='gray', linestyle='--', alpha=0.5)
         ax.axvline(x=65, color='gray', linestyle='--', alpha=0.5)
-        ax.text(15, ax.get_ylim()[1]*0.95, '15岁', color='gray')
-        ax.text(65, ax.get_ylim()[1]*0.95, '65岁', color='gray')
+        ax.text(15, ax.get_ylim()[1]*0.95, '15-y', color='gray')
+        ax.text(65, ax.get_ylim()[1]*0.95, '65-y', color='gray')
         
         plt.tight_layout()
         return fig, ax
@@ -992,15 +925,11 @@ if __name__ == "__main__":
     
     # 比较不同情景
     scenarios = [
-        {'name': '当前极低生育率', 'fertility': 'current'},
-        {'name': '生育率轻微回升', 'fertility': 'slight_increase'},
-        {'name': '生育率恢复更替水平', 'fertility': 'recovery'}
+        {'name': 'reality as extremely low', 'fertility': 'current'},
+        {'name': 'mild pick-up', 'fertility': 'slight_increase'},
+        {'name': 'back to normal', 'fertility': 'recovery'}
     ]
     
     fig, _, _ = simulator.compare_scenarios(scenarios)
     plt.savefig(f'{society}比较不同情景')
     
-    # 生成报告
-    report = simulator.generate_report("基准情景：维持极低生育率")
-    with open("population_report.md", "w", encoding="utf-8") as file:
-        file.write(report)
